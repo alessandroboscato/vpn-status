@@ -66,8 +66,10 @@ class ServerController extends Controller
     public function show($id)
     {
         $data = Server::find($id);
+        // if ($exists = Storage::disk('local')->exists('file.jpg')){}
         //prendo il path e lo concateno per trovare il file
         $lines = file('../storage/app/server.txt', FILE_IGNORE_NEW_LINES);
+
         return view('show', compact('lines'));
     }
 
@@ -79,7 +81,8 @@ class ServerController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = Server::find($id);
+        return view('edit', compact('data'));
     }
 
     /**
@@ -91,7 +94,15 @@ class ServerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $data = $request->all();
+        //validazione
+
+        $editServer = Server::find($id);
+        $editServer->name = $data['name'];
+        $editServer->path = $data['path'];
+        $editServer->update();
+        return redirect()->route('servers.index');
     }
 
     /**
@@ -102,6 +113,8 @@ class ServerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $deleteServer = Server::find($id);
+        $deleteServer->delete();
+        return redirect()->route('servers.index');
     }
 }
