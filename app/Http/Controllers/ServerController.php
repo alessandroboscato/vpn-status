@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Server;
+use App\Models\Server;
 
 class ServerController extends Controller
 {
@@ -24,7 +24,8 @@ class ServerController extends Controller
      */
     public function index()
     {
-        return view('servers');
+      $servers = Server::all();
+      return view('servers', compact('servers'));
     }
 
     /**
@@ -34,7 +35,7 @@ class ServerController extends Controller
      */
     public function create()
     {
-        //
+        return view('create');
     }
 
     /**
@@ -45,7 +46,14 @@ class ServerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        //validazione
+        $newServer = new Server;
+        $newServer->name = $data['name'];
+        $newServer->path = $data['path'];
+        $newServer->save();
+
+        return redirect()->route('servers.show', $newServer->id);
     }
 
     /**
@@ -56,7 +64,10 @@ class ServerController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = Server::find($id);
+
+        
+        return view('servers.show', compact('data'));
     }
 
     /**
