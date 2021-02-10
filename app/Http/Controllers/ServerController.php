@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Server;
+use Illuminate\Support\Facades\Storage;
 
 class ServerController extends Controller
 {
@@ -65,9 +66,9 @@ class ServerController extends Controller
     public function show($id)
     {
         $data = Server::find($id);
-
-        
-        return view('servers.show', compact('data'));
+        //prendo il path e lo concateno per trovare il file
+        $lines = file('../storage/app/server.txt', FILE_IGNORE_NEW_LINES);
+        return view('show', compact('lines'));
     }
 
     /**
