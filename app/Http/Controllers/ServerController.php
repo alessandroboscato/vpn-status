@@ -89,8 +89,18 @@ class ServerController extends Controller
           $pieces = explode(",", $line);
           $wordToCheck = trim($pieces[0]);
           if(!in_array($wordToCheck, $guarded)) {
-            array_push($newArray, $line);
+            array_push($newArray, $pieces);
           };
+        }
+
+        // ciclo per matchare gli elementi
+        foreach ($newArray as $arr => $value){
+          $valueToCheck = $value[0];
+          foreach ($newArray as $barr => $dalue) {
+            if ($valueToCheck == $dalue[1]){
+              echo $valueToCheck.$dalue[1]."<br>";
+            }
+          }
         }
         return view('show', compact('newArray'));
     }
