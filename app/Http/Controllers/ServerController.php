@@ -69,8 +69,19 @@ class ServerController extends Controller
         // if ($exists = Storage::disk('local')->exists('file.jpg')){}
         //prendo il path e lo concateno per trovare il file
         $lines = file('../storage/app/server.txt', FILE_IGNORE_NEW_LINES);
-
-        return view('show', compact('lines'));
+        // foreach($lines as $line){
+        //   if (strlen($line) < 67) {
+        //     unset($lines[$line]);
+        //   }
+        //   return $lines;
+        // }
+        $newArray = array();
+        foreach($lines as $line) {
+          if (strlen($line) > 66) {
+            array_push($newArray, $line);
+          }
+        }
+        return view('show', compact('newArray'));
     }
 
     /**
