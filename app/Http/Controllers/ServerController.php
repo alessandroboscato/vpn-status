@@ -68,14 +68,29 @@ class ServerController extends Controller
         $data = Server::find($id);
         // if ($exists = Storage::disk('local')->exists('file.jpg')){}
         //prendo il path e lo concateno per trovare il file
-        $lines = file('../storage/app/server.txt', FILE_IGNORE_NEW_LINES);
+        $file = file('../storage/app/server.txt', FILE_IGNORE_NEW_LINES);
+        array_shift($file);
+        array_pop($file);
+
+        //lista dei valori che non devono essere presenti nel nuovo array
+        $guarded = [
+          'OpenVPN CLIENT LIST',
+          'Updated',
+          'Common Name',
+          'ROUTING TABLE',
+          'Virtual Address',
+          'GLOBAL STATS',
+          'Max bcast/mcast queue length',
+          'END'
+        ];
 
         $newArray = array();
-        foreach($lines as $line) {
-          if (strlen($line) > 66) {
-            $pieces = explode(",", $line);
-            array_push($newArray, $pieces);
-          }
+        foreach($file as $line) {
+          $pieces = explode(",", $line);
+          $wordToCheck = trim($pieces[0]);
+          if(!in_array($wordToCheck, $guarded)) {
+            array_push($newArray, $line);
+          };
         }
         return view('show', compact('newArray'));
     }
