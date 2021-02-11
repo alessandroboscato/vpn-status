@@ -63,9 +63,9 @@ class ServerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($path)
     {
-        $data = Server::find($id);
+        $data = Server::where('path', $path)->first();
         //prendo il path e lo concateno per trovare il file
         $file = file('../storage/app/server.txt', FILE_IGNORE_NEW_LINES);
         array_shift($file);

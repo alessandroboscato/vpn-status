@@ -17,7 +17,7 @@
   @foreach ($servers as $server)
     <tr>
       <td>{{$server->id}}</td>
-      <td>{{$server->name}}</td>
+      <td><a href="{{ route('servers.show', $server->path)}}">{{$server->name}}</a></td>
       <td>{{$server->path}}</td>
       <td>{{$server->created_at}}</td>
       <td>
