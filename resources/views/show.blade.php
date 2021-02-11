@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@dd($newArray);
+{{-- @dd($data); --}}
 @section('content')
 <div class="">
 <span><a href="{{ route('servers.index')}}">Torna ai server</a></span>
@@ -11,11 +11,14 @@
     <td>Bytes received</td>
     <td>Bytes sent</td>
     <td>Connected since</td>
+    <td>Virtual address</td>
     <td>Last reference</td>
   </tr>
-  @foreach ($lines as $line)
+  @foreach ($data as $line=>$value)
     <tr>
-      <td>{{$line}}</td>
+      @foreach ($value as $column => $value)
+        <td>{{$value}}</td>
+      @endforeach
     </tr>
   @endforeach
 </table>

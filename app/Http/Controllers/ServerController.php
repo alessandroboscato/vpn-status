@@ -66,7 +66,6 @@ class ServerController extends Controller
     public function show($id)
     {
         $data = Server::find($id);
-        // if ($exists = Storage::disk('local')->exists('file.jpg')){}
         //prendo il path e lo concateno per trovare il file
         $file = file('../storage/app/server.txt', FILE_IGNORE_NEW_LINES);
         array_shift($file);
@@ -94,15 +93,17 @@ class ServerController extends Controller
         }
 
         // ciclo per matchare gli elementi
+        $data = array();
         foreach ($newArray as $arr => $value){
-          $valueToCheck = $value[0];
-          foreach ($newArray as $barr => $dalue) {
-            if ($valueToCheck == $dalue[1]){
-              echo $valueToCheck.$dalue[1]."<br>";
+          foreach ($newArray as $barr => $otherValue) {
+            if ($value[0]== $otherValue[1]){
+              $diff = array_diff($otherValue, $value);
+              $result = array_merge($value, $diff);
+              $data[]= $result;
             }
           }
         }
-        return view('show', compact('newArray'));
+      return view('show', compact('data'));
     }
 
     /**
